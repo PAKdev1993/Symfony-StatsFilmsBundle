@@ -1,0 +1,7 @@
+krstic_stat_films_homepage:
+    path:     /krstic-stats-films
+    defaults: { _controller: KrsticStatFilmsBundle:Home:index }
+    
+krstic_stat_films_uploadpage:
+    path:     /krstic-stats-films-uploadCSV
+    defaults: { _controller: KrsticStatFilmsBundle:UploadCSV:index }

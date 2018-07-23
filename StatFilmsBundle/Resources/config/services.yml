@@ -1,0 +1,3 @@
+services:
+    krstic_stat_films.csvdatagetter:
+        class: Krstic\StatFilmsBundle\CSVDatasGetter\KrsticCSVDatasGetter
