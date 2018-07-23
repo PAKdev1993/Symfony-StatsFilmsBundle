@@ -1,9 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends '@KrsticStatFilms/layout.html.twig' %}
 
-{% block body %}
-    {% block entete %} {% endblock %}
-    {% block form %} {% endblock %}
+{% block entete %}
+    {{ include('@KrsticStatFilms/Components/entete.html.twig') }}
 {% endblock %}
+
+{% block body_page %}
+    Upload !
+{% endblock %}
+
+
 
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">

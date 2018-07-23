@@ -3,5 +3,5 @@ krstic_stat_films_homepage:
     defaults: { _controller: KrsticStatFilmsBundle:Home:index }
     
 krstic_stat_films_uploadpage:
-    path:     /krstic-stats-films-uploadCSV
+    path:     /krstic-stats-films-upload
     defaults: { _controller: KrsticStatFilmsBundle:Upload:index }
