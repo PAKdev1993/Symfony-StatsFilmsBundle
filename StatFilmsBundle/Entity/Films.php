@@ -155,14 +155,4 @@ class Films
     {
         return $this->paysorigine;
     }
-    
-    /**
-     * Get all films
-     *
-     * @return string
-     */
-    public function getPaysorigine()
-    {
-        return $this->paysorigine;
-    }
 }
