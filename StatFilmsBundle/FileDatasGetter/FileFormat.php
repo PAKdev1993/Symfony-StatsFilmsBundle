@@ -1,10 +1,10 @@
 <?php
 
-namespace Krstic\StatFilmsBundle\CSVDatasGetter;
+namespace Krstic\StatFilmsBundle\FileDatasGetter;
 
 /*
  * Strategy Interface
  */
-interface CSVFormater {
+interface FileFormat {
     public function getDatas($text);
 }
