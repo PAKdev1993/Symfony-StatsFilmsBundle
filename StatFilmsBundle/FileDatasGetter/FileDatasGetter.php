@@ -2,7 +2,7 @@
 
 namespace Krstic\StatFilmsBundle\FileDatasGetter;
 
-use Krstic\StatFilmsBundle\CSVDatasGetter\CSVFileFilms;
+use Krstic\StatFilmsBundle\FileDatasGetter\CSVFileFilms;
 
 class FileDatasGetter {
        

@@ -1,6 +1,8 @@
 <?php
 
-namespace Krstic\StatFilmsBundle\CSVDatasGetter;
+namespace Krstic\StatFilmsBundle\FileDatasGetter;
+
+use Krstic\StatFilmsBundle\FileDatasGetter\FileInterface;
 
 /*
  * Classe destinée a s'occuper d'un CSV de type "films" avec ses règles propres de formatage
