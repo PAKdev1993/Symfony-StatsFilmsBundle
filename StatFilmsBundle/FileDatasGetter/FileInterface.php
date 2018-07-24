@@ -13,5 +13,5 @@ interface FileInterface {
      * @return array() : un tableau de tableau representant chaque colonne
      * @return int : code d'erreur
      */
-    public function getDatas();
+    public function getFileDatas();
 }

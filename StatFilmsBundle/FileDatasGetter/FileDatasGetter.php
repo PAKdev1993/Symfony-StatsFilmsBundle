@@ -6,8 +6,8 @@ use Krstic\StatFilmsBundle\FileDatasGetter\CSVDattaGetter;
 
 class FileDatasGetter {
        
-    public function getDatas(FileInterface $csv){
-        return $csv->getDatas();       
+    public function getFileDatas(FileInterface $csv){
+        return $csv->getFileDatas();       
     }
     
     /*
