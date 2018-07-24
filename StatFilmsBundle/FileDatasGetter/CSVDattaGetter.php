@@ -12,34 +12,52 @@ use Symfony\Component\HttpFoundation\FileBag;
  */
 class CSVDattaGetter implements FileInterface{
     
-    protected $uploadedFile;
+    private $uploadedFile;
     
-    const ERROR_UPLOAD = 1;
-    const ERROR_FILE_OPENING = 2;
+    const ERROR = 1;
+    
+    private $errorMessage;
         
     public function __construct(FileBag $csv){
         $this->uploadedFile = $csv->get('form')['attachment'];
     }
     
-    /**
-     * Recupère les données du CSV dans un tableau
-     * 
-     * @return array() : un tableau de tableau representant chaque colonne
-     * @return int : code d'erreur
-     */
+    public function getErrorMessage(){
+        return $this->errorMessage;
+    }
+    
     public function getFileDatas($removeFirstLine = false)
     {
-        if($this->uploadedFile->isValid()) {
-            $handle = $this->openFile();
-            
-            if($handle !== self::ERROR_FILE_OPENING) {
-                
-                return $this->getArrayData($handle);
-            }
+        if(($handle = $this->isValid()) !== FALSE) {
+            return $this->getArrayData($handle);
         }
-        else{
-            return self::ERROR_UPLOAD;
+        else {
+            return self::ERROR;
         }
+    }
+    
+    private function isValid(){
+        if(!$this->uploadedFile->isValid()){
+            $this->errorMessage = $this->uploadedFile->getErrorMessage();
+            return false;
+        }
+        
+        if($this->uploadedFile->getClientOriginalExtension() !== 'csv'){
+            $this->errorMessage = "Le fichier doit etre au formt csv";
+            return false;
+        }
+        
+        if($this->uploadedFile->getMimeType() !== "text/plain"){
+            $this->errorMessage = "Le fichier doit posseder un contenu text";
+            return false;
+        }
+        
+        if(($handle = $this->openFile()) === FALSE){
+            $this->errorMessage = "Problème lor de l'ouverture du fichier, reesayez";
+            return false;
+        }
+        
+        return $handle;
     }
     
     /**
@@ -54,7 +72,7 @@ class CSVDattaGetter implements FileInterface{
             return $handle;
         }
         else{
-            return self::ERROR_FILE_OPENING;
+            return false;
         }
     }
     
@@ -66,7 +84,7 @@ class CSVDattaGetter implements FileInterface{
      */
     private function getArrayData($handle)
     {
-        $row = 5;
+        $row = 1;
         $arrayData = array();
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $num = count($data);

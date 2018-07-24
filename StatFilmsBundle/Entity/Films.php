@@ -31,7 +31,7 @@ class Films
     /**
      * @var string
      *
-     * @ORM\Column(name="realisateur", type="string", length=60)
+     * @ORM\Column(name="realisateur", type="string", length=150)
      */
     private $realisateur;
 
@@ -45,9 +45,23 @@ class Films
     /**
      * @var string
      *
-     * @ORM\Column(name="paysorigine", type="string", length=10)
+     * @ORM\Column(name="paysorigine", type="string", length=30)
      */
     private $paysorigine;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nbdiffusions", type="integer")
+     */
+    private $nbdiffucions;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="annee_derniere_diffusion", type="integer")
+     */
+    private $anneedernierediffusion;
 
 
     /**
@@ -154,5 +168,53 @@ class Films
     public function getPaysorigine()
     {
         return $this->paysorigine;
+    }
+
+    /**
+     * Set nbdiffucions
+     *
+     * @param integer $nbdiffucions
+     *
+     * @return Films
+     */
+    public function setNbdiffucions($nbdiffucions)
+    {
+        $this->nbdiffucions = $nbdiffucions;
+
+        return $this;
+    }
+
+    /**
+     * Get nbdiffucions
+     *
+     * @return integer
+     */
+    public function getNbdiffucions()
+    {
+        return $this->nbdiffucions;
+    }
+
+    /**
+     * Set anneedernierediffusion
+     *
+     * @param integer $anneedernierediffusion
+     *
+     * @return Films
+     */
+    public function setAnneedernierediffusion($anneedernierediffusion)
+    {
+        $this->anneedernierediffusion = $anneedernierediffusion;
+
+        return $this;
+    }
+
+    /**
+     * Get anneedernierediffusion
+     *
+     * @return integer
+     */
+    public function getAnneedernierediffusion()
+    {
+        return $this->anneedernierediffusion;
     }
 }

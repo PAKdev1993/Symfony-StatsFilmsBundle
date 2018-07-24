@@ -7,8 +7,8 @@ namespace Krstic\StatFilmsBundle\FileDatasGetter;
  */
 interface FileInterface {
     
-    /*
-     * recupère les données du CSV dans un tableau
+    /**
+     * Recupère les données du CSV dans un tableau
      * 
      * @return array() : un tableau de tableau representant chaque colonne
      * @return int : code d'erreur
