@@ -5,6 +5,6 @@ namespace Krstic\StatFilmsBundle\FileDatasGetter;
 /*
  * Strategy Interface
  */
-interface FileFormat {
+interface FileInterface {
     public function getDatas($text);
 }

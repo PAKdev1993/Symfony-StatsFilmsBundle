@@ -7,7 +7,7 @@ namespace Krstic\StatFilmsBundle\CSVDatasGetter;
  *
  * @author PAK
  */
-class CSVFileFilms implements FileFormat{
+class CSVFileFilms implements FileInterface{
     
     protected $csv;
     
