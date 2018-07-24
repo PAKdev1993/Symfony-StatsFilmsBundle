@@ -1,5 +1,25 @@
-{% extends 'layout.html.twig' %}
-
 {% block form %}
-    Form !
+    
+    <div class="row">
+        <div class="col s12 m6" style="float:none; margin-right:auto;">
+            {{ form_start(form) }}
+            
+            {# Les erreurs générales du formulaire. #}
+            {{ form_errors(form) }}
+            
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>File</span>
+                {# Génération de l'input. #}
+                {{ form_widget(form.attachment) }}
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+              {{ form_widget(form.send, {'attr': {'class': 'btn waves-effect waves-light'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
 {% endblock %}

@@ -5,3 +5,7 @@ krstic_stat_films_homepage:
 krstic_stat_films_uploadpage:
     path:     /krstic-stats-films-upload
     defaults: { _controller: KrsticStatFilmsBundle:Upload:index }
+    
+krstic_stat_films_addfile:
+    path:     /krstic-stats-films-addfile
+    defaults: { _controller: KrsticStatFilmsBundle:Upload:addFile }

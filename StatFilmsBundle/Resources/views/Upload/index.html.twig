@@ -5,13 +5,24 @@
 {% endblock %}
 
 {% block body_page %}
-    Upload !
+    <section id="form-upload-container">
+        {{ include('@KrsticStatFilms/Components/form.html.twig') }}
+    </section>
 {% endblock %}
-
-
 
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <style>
+        main{
+            display:flex;
+            align-items: center;
+            height:80vh;
+        }
+        
+        #form-upload-container{
+            width:100%;
+        }   
+    </style>
 {% endblock %}
 
 {% block javascripts %}
