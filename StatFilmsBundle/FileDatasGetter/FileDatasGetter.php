@@ -2,7 +2,7 @@
 
 namespace Krstic\StatFilmsBundle\FileDatasGetter;
 
-use Krstic\StatFilmsBundle\FileDatasGetter\CSVFileFilms;
+use Krstic\StatFilmsBundle\FileDatasGetter\CSVDattaGetter;
 
 class FileDatasGetter {
        
@@ -10,7 +10,14 @@ class FileDatasGetter {
         return $csv->getDatas();       
     }
     
+    /*
+     * Factory to get .CSV files DataGetter
+     * 
+     * @param $csv : $_FILE with .csv extension
+     * 
+     * @return CSVDattaGetter
+     */
     public static function getAlgoCSVFile($csv){
-        return new CSVFileFilms($csv);
+        return new CSVDattaGetter($csv);
     }
 }
