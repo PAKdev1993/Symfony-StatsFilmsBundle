@@ -183,14 +183,20 @@ class FilmsRepository extends \Doctrine\ORM\EntityRepository
      * @param type $a : array()
      * @param type $b : array()
      * @return int
-     * 
      */
     private static function sortByNbFilms($a,$b) {
         if ($a['nbfilms'] == $b['nbfilms']) return 0;
         return ($a['nbfilms'] > $b['nbfilms']) ? -1 : 1;
     }
     
-    
+    /**
+     * Test le caractère vide d'un tableau
+     * 
+     * @param type $a : array()
+     * @param type $b : array()
+     * @return bool
+     * 
+     */
     private static function isEmptyArray($a) {
         $errors = array_filter($a);
         if (!empty($errors)) {
