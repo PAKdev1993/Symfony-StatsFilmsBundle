@@ -17,5 +17,6 @@ This is my first bundle, it should not be used as an example
 
 **How to use**
 
-- Create "Krstic" folder in your Symfony src/
-- Home route is : /krstic-stats-films
+- Create *Krstic* folder in your Symfony *src/*
+- Put the Bundle inside *Krstic* folder
+- Home route is : */krstic-stats-films*
