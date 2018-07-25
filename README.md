@@ -1,7 +1,7 @@
 # Symfony 3.4 - StatFilmsBundle
 
 **Purpose**
-This is only a training Bundle
+This is only a traning Bundle
 This bundle allow to upload a given list of films on .csv file, add datas in database and display few stats.
 
 **Diclaimer**
