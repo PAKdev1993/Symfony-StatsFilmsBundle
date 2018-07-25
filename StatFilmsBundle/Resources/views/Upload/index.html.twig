@@ -6,6 +6,15 @@
 
 {% block body_page %}
     <section id="form-upload-container">
+        {% for label, messages in app.flashes(['warning', 'error', 'notice']) %}
+            {% for message in messages %}
+                <div class="row">
+                    <div class="col s6 m4 alert alert-{{ label }}" style="float:none; margin-right:auto;">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
         {{ include('@KrsticStatFilms/Components/form.html.twig') }}
     </section>
 {% endblock %}
@@ -21,7 +30,21 @@
         
         #form-upload-container{
             width:100%;
-        }   
+        }
+        
+        .alert{
+            text-align: center;
+            font-size: 1vw;
+            padding: 7.5px 15px 7.5px 15px; 
+            color: white;
+            border-radius: 3px;
+        }
+        .alert-error{
+            background-color: #F44336;
+        }
+        .alert.notice{
+            background-color: #26a69a;
+        }
     </style>
 {% endblock %}
 

@@ -10,4 +10,193 @@ namespace Krstic\StatFilmsBundle\Repository;
  */
 class FilmsRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    /**
+     * Creer un classement des realisateurs ayant réalisé le plus de films
+     * 
+     * @return array : classement ordonné des realisateur par nombre de films déscendant
+     */
+    public function getClassementReal()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $head = $qb
+                ->select('f.realisateur, COUNT(f) as nbfilms')
+                ->from($this->_entityName, 'f');
+        
+        //requettes des films n'ayant qu'un seul real
+        $multiplerealisateur = $head
+                ->where('f.realisateur LIKE :cond')
+                ->setParameter('cond', "%/%")
+                ->groupBy('f.realisateur')
+                ->orderBy('nbfilms','DESC')
+                ->getQuery()
+                ->getArrayResult();
+
+        //requette des films ayant plusieurs reals
+        $singlerealisateur = $head
+                ->where('f.realisateur NOT LIKE :cond')
+                ->setParameter('cond', "%/%")
+                ->groupBy('f.realisateur')
+                ->orderBy('nbfilms','DESC')
+                ->getQuery()
+                ->getArrayResult();
+        
+        $realisateurs = array();
+        $classement = $singlerealisateur;
+        
+        //enregistrement des pays dans un tableau, une occurence de pays 
+        //represente un film de plus a ajouter au compteur nbfilm d'un pays
+        //dans le tableau $classement
+        foreach($multiplerealisateur as $g) {
+            $distinctreal = array_map('trim', explode('/', $g['realisateur']));
+            $realisateurs = array_merge($realisateurs, $distinctreal);            
+        }
+       
+        //incrementation du compteur de film d'un pays 
+        $realnbfilmassoc = array_count_values($realisateurs);
+        $length = count($classement);
+        for($i = 0; $i < $length; $i++) {            
+            if(array_key_exists($classement[$i]['realisateur'], $realnbfilmassoc)) {
+                //ajouter le nb de film au compteur de film
+                $classement[$i]['nbfilms'] = strval($classement[$i]['nbfilms'] + (int) $realnbfilmassoc[$classement[$i]['realisateur']]);
+                //remove d'une occurence du pays trouvée
+                unset($realnbfilmassoc[$classement[$i]['realisateur']]);
+             }
+                        
+            if(self::isEmptyArray($realnbfilmassoc)) {
+                break;
+            }
+        }
+      
+        //s'il reste des realisateur ds le tableau de pays alors les rajouter 
+        //au classement
+      
+        foreach($realnbfilmassoc as $realisateurs => $nbfilms){
+            array_push($classement, array('realisateur' => $realisateurs, 'nbfilms' => $nbfilms));
+        }
+        
+        //reclassement du tableau
+        usort($classement, 'self::sortByNbFilms');
+                        
+        return $classement;
+        
+    }
+    
+    /**
+     * Creer un classement des pays d'origine par nombre de films associés
+     * 
+     * @return array : classement ordonné des pays par nombre de films déscendant
+     */
+    public function getClassementPays()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $head = $qb
+                ->select('f.paysorigine, COUNT(f) as nbfilms')
+                ->from($this->_entityName, 'f');
+        
+        //requettes des films n'ayant qu'un seul real
+        $multiplepaysorigine = $head
+                ->where('f.paysorigine LIKE :cond')
+                ->setParameter('cond', "%/%")
+                ->groupBy('f.paysorigine')
+                ->orderBy('nbfilms','DESC')
+                ->getQuery()
+                ->getArrayResult();
+
+        //requette des films ayant plusieurs reals
+        $singlepaysorigine = $head
+                ->where('f.paysorigine NOT LIKE :cond')
+                ->setParameter('cond', "%/%")
+                ->groupBy('f.paysorigine')
+                ->orderBy('nbfilms','DESC')
+                ->getQuery()
+                ->getArrayResult();
+        
+        $pays = array();
+        $classement = $singlepaysorigine;
+        
+        //enregistrement des pays dans un tableau, une occurence de pays 
+        //represente un film de plus a ajouter au compteur nbfilm d'un pays
+        //dans le tableau $classement
+        foreach($multiplepaysorigine as $g) {
+            $distinctpays = array_map('trim', explode('/', $g['paysorigine']));
+            $pays = array_merge($pays, $distinctpays);            
+        }
+       
+        //incrementation du compteur de film d'un pays 
+        $paysnbfilmassoc = array_count_values($pays);
+        $length = count($classement);
+        for($i = 0; $i < $length; $i++) {            
+            if(array_key_exists($classement[$i]['paysorigine'], $paysnbfilmassoc)) {
+                //ajouter le nb de film au compteur de film
+                $classement[$i]['nbfilms'] = strval($classement[$i]['nbfilms'] + (int) $paysnbfilmassoc[$classement[$i]['paysorigine']]);
+                //remove d'une occurence du pays trouvée
+                unset($paysnbfilmassoc[$classement[$i]['paysorigine']]);
+             }
+                        
+            if(self::isEmptyArray($paysnbfilmassoc)) {
+                break;
+            }
+        }
+      
+        //s'il reste des realisateur ds le tableau de pays alors les rajouter 
+        //au classement
+      
+        foreach($paysnbfilmassoc as $pays => $nbfilms){
+            array_push($classement, array('paysorigine' => $pays, 'nbfilms' => $nbfilms));
+        }
+        
+        //reclassement du tableau
+        usort($classement, 'self::sortByNbFilms');
+        
+        return $classement;
+        
+    }
+    
+    
+    /**
+     * Recupère les $limit meilleurs realisateurs depuis le classement
+     * 
+     * @param int $limit
+     * @return array
+     */
+    public function getBestReal($limit) {
+        $classement = $this->getClassementReal();
+        return array_slice($classement, 0, $limit);
+    }
+    
+    
+    /**
+     * Recupère les $limit meilleurs realisateurs depuis le classement
+     * 
+     * @param int $limit
+     * @return array
+     */
+    public function getBestPays($limit) {
+        $classement = $this->getClassementPays();
+        return array_slice($classement, 0, $limit);
+    }
+    
+    /**
+     * Est utilisé pour le usort
+     * 
+     * @param type $a : array()
+     * @param type $b : array()
+     * @return int
+     * 
+     */
+    private static function sortByNbFilms($a,$b) {
+        if ($a['nbfilms'] == $b['nbfilms']) return 0;
+        return ($a['nbfilms'] > $b['nbfilms']) ? -1 : 1;
+    }
+    
+    
+    private static function isEmptyArray($a) {
+        $errors = array_filter($a);
+        if (!empty($errors)) {
+            return false;
+        }
+       return true;
+    }
+   
 }
