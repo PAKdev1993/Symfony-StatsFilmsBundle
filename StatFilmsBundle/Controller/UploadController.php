@@ -12,6 +12,7 @@ class UploadController extends Controller
 {
     /**
      * Affiche la vue des statistiques
+     * 
      */
     public function indexAction()
     {
@@ -32,6 +33,7 @@ class UploadController extends Controller
     
     /**
      * Upload les données du fichier, affiche la vue des stats
+     * 
      */
     public function addFileAction(Request $request)
     {
@@ -42,7 +44,7 @@ class UploadController extends Controller
             $DattaGetter = $FileDataGetter::getAlgoCSVFile($request->files); //for CSV Files
             $datas = $FileDataGetter->getFileDatas($DattaGetter);
             
-            //Si erreur set flash message
+            //set flash message
             if($datas == $DattaGetter::ERROR){
                 $request->getSession()->getFlashBag()->add('error', $DattaGetter->getErrorMessage());
                 return $this->redirectToRoute('krstic_stat_films_uploadpage');
@@ -64,7 +66,7 @@ class UploadController extends Controller
             
             $em->flush();
             
-            $request->getSession()->getFlashBag()->add('notice', 'Fichier importé avec succès !');            
+                        
             
             return $this->redirectToRoute('krstic_stat_films_homepage');            
         }       
